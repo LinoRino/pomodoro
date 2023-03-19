@@ -2,16 +2,30 @@ import { JSX } from "solid-js";
 
 type EgmaSpin = {
   value: number;
+  /**
+   * max value
+   * @default 100
+   */
+  max?: number;
+  /**
+   * min value
+   * @default 0
+   */
+  min?: number;
   radius?: number;
   stroke?: number;
   withLabel?: boolean;
+  label?: JSX.Element;
 };
 
 /**
- * a simple circle spiner
- * @param props
+ * A simple spinner
+ * @param props props
+ * @returns {JSX.Element}
  */
-export function Progress(props: EgmaSpin) {
+export function Progress(props: EgmaSpin): JSX.Element {
+  const max = props.max ? props.max : props.value <= 100 ? 100 : props.value;
+  const min = props.min ? props.min : props.value >= 0 ? 0 : props.value;
   const rad = props.radius ? props.radius : 18;
   const stroke = props.stroke ? props.stroke : 5;
   const circum = rad * Math.PI;
@@ -20,22 +34,27 @@ export function Progress(props: EgmaSpin) {
   const dashArr = (which: 0 | 1) => {
     switch (which) {
       case 0:
-        return rad * Math.PI * (props.value <= 50 ? props.value * 0.02 : 1);
+        return circum * 2 * (props.value <= max / 2 ? props.value / max : 2);
       case 1:
-        if (props.value <= 50) {
-          return rad * Math.PI * 2;
-        } else if (props.value > 100) {
+        if (props.value <= max / 2) {
+          return circum * 2;
+        } else if (props.value > max) {
           return 0;
         } else {
-          return rad * Math.PI * (2 - props.value * 0.02);
+          return circum * 2 * (1 - props.value / max);
         }
     }
   };
+  if (props.max && props.min && props.max <= props.min) {
+    throw new Error("max should be greater than min");
+  }
   return (
     <div class="progress grid place-items-center">
-      <span class="absolute text-white text-lg font-semibold">
-        {props.value}
-      </span>
+      {props.withLabel && (
+        <span class="absolute text-white text-lg font-semibold">
+          {props.label ? props.label : props.value}
+        </span>
+      )}
       <span
         class="progress-bar"
         role="progressbar"
