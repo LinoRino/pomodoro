@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",
-    "start": "electron ."
+    "start": "electron .",
+    "test": "vitest"
   },
   "type": "module",
   "main": "main.cjs",
@@ -17,7 +18,8 @@
     "solid-start-static": "^0.2.23",
     "tailwindcss": "^3.2.7",
     "typescript": "^4.9.4",
-    "vite": "^4.1.4"
+    "vite": "^4.1.4",
+    "vitest": "^0.29.3"
   },
   "dependencies": {
     "@solidjs/meta": "^0.28.2",
