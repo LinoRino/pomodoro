@@ -15,7 +15,7 @@ type EgmaSpin = {
   radius?: number;
   stroke?: number;
   withLabel?: boolean;
-  label?: JSX.Element;
+  children?: JSX.Element;
 };
 
 /**
@@ -29,7 +29,7 @@ export function Progress(props: EgmaSpin): JSX.Element {
   const rad = props.radius ? props.radius : 18;
   const stroke = props.stroke ? props.stroke : 5;
   const circum = rad * Math.PI;
-  const size = 16 * 9;
+  const size = 16 * 10;
 
   const dashArr = (which: 0 | 1) => {
     switch (which) {
@@ -52,7 +52,7 @@ export function Progress(props: EgmaSpin): JSX.Element {
     <div class="progress grid place-items-center">
       {props.withLabel && (
         <span class="absolute text-white text-lg font-semibold">
-          {props.label ? props.label : props.value}
+          {props.children ? props.children : props.value}
         </span>
       )}
       <span

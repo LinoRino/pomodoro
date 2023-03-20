@@ -1,9 +1,10 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, JSX } from "solid-js";
+import { Title } from "solid-start";
 import { Progress } from "~/lib/components/Progress";
 import { createTimer } from "~/lib/hooks/createTimer";
 
 export default function Home() {
-  const [time, setTime] = createTimer(0, 2);
+  const [time, setTime] = createTimer(0, 20);
   const [start, setStart] = createSignal(false);
   const [IID, setIID] = createSignal(0);
 
@@ -24,18 +25,22 @@ export default function Home() {
   });
   return (
     <main class="min-h-screen py-8 flex flex-col items-center">
+      <Title>Pomodoro</Title>
       <div class="m-6">
         <Progress
           withLabel
           max={time()}
           min={0}
           value={time()}
-          radius={16 * 3.75}
+          radius={16 * 4.5}
           stroke={12}
-          label={`${time("m") < 10 ? 0 : ""}${time("m")}:${
-            time("s") < 10 ? 0 : ""
-          }${time("s")}`}
-        />
+        >
+          <span class="text-2xl font-medium">
+            {`${time("m") < 10 ? 0 : ""}${time("m")}:${
+              time("s") < 10 ? 0 : ""
+            }${time("s")}`}
+          </span>
+        </Progress>
       </div>
       <div class="flex m-3 justify-around items-center">
         <button
